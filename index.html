@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>A Birthday Movie</title>
+<style>
+:root{--cream:#f6ecd9;--cocoa:#4a2f25;--plum:#6b4561;--gold:#e3b565}
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#1d1216;color:var(--cream);font-family:Georgia,serif;touch-action:none}
+canvas{display:block;position:fixed;inset:0}
+#sub{z-index:8;position:fixed;left:50%;bottom:9%;transform:translateX(-50%);max-width:88vw;text-align:center;font-size:clamp(18px,3.2vw,30px);text-shadow:0 2px 8px #000;white-space:pre-line;pointer-events:none;opacity:0;transition:opacity .3s}
+#sub b{color:var(--gold)}
+#bar{z-index:10;position:fixed;top:max(10px,env(safe-area-inset-top));right:10px;display:flex;gap:6px;z-index:5}
+button{font:inherit;background:#0008;color:var(--cream);border:1px solid #fff3;border-radius:20px;padding:8px 14px;min-height:40px;cursor:pointer}
+#cover{position:fixed;inset:0;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;background:radial-gradient(#4a2f25,#1d1216);z-index:9;text-align:center;padding:20px}
+#cover h1{font-weight:400;font-size:clamp(26px,6vw,52px);margin:0}
+#ov{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:6;background:#000a;flex-direction:column;gap:12px}
+#ov video,#ov img{max-width:92vw;max-height:70vh;border-radius:6px}
+#ghost{position:fixed;left:calc(100% - 80px);top:10px;font-size:64px;z-index:8;transition:all 1.4s ease;opacity:0;pointer-events:none}
+#hint{position:fixed;top:12px;left:12px;font-size:14px;opacity:.8;z-index:4;white-space:pre-line}
+#next{position:fixed;left:50%;bottom:4%;transform:translateX(-50%);display:none;z-index:5}
+#chat{position:fixed;left:50%;top:14%;transform:translateX(-50%) scale(.9);max-width:86vw;background:var(--cream);color:var(--cocoa);padding:16px 22px;border-radius:22px;white-space:pre-line;font-size:clamp(16px,2.6vw,22px);opacity:0;transition:.4s;z-index:4;text-align:center;pointer-events:none}
+#chat.on{opacity:1;transform:translateX(-50%) scale(1)}
+#fade{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity 1s;z-index:7}
+#cl,#cr{position:fixed;top:0;bottom:0;width:50.5%;background:repeating-linear-gradient(90deg,#5a1f30 0 26px,#8a3347 26px 40px,#4a1626 40px 60px);box-shadow:inset 0 -30px 60px #0008;z-index:7;transition:transform 3s cubic-bezier(.6,0,.3,1);pointer-events:none}#cl{left:0;transform:translateX(-100%);border-right:4px solid var(--gold)}#cr{right:0;transform:translateX(100%);border-left:4px solid var(--gold)}.shut{transform:none!important}
+#final{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9;pointer-events:none;text-align:center}.fl{opacity:0;transition:opacity 2.4s;font-size:clamp(24px,5.5vw,52px);margin:.35em 0;font-style:italic;color:var(--gold);text-shadow:0 2px 12px #000}.fl.on{opacity:1}.sp{position:absolute;opacity:0;animation:tw 3s infinite}@keyframes tw{50%{opacity:.9;transform:translateY(-14px)}}
+#replay{position:fixed;left:50%;bottom:6%;transform:translateX(-50%);z-index:10;display:none}
+#err{position:fixed;inset:auto 10px 10px;background:#7a1f2b;padding:10px;display:none;z-index:20}
+</style></head><body>
+<div id="cover"><h1>Happy Birthday, Osborne</h1><div>A little animated movie, made for you.<br>Sound on 🔊</div><button id="start">▶ Press to begin</button><div id="load"></div></div>
+<div id="bar"><button id="bPause">⏸</button><button id="bMute">🔊</button><input id="vol" type="range" min="0" max="1" step=".05" value=".7" style="width:70px"><button id="bReplay">↻ line</button><button id="bQ">HQ</button><button id="bSkip">Skip ⏭</button></div>
+<div id="hint"></div><div id="chat"></div><div id="sub"></div><div id="ghost">👻</div><button id="next"></button>
+<div id="ov"><div id="ovc"></div><button id="ovb">← Back to the memories</button></div><div id="fade"></div><div id="final"></div><button id="replay">↻ Watch again</button><div id="cl"></div><div id="cr"></div><div id="err"></div>
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js","chess.js":"./vendor/chess.js"}}</script>
+<script type="module" src="main.js"></script></body></html>
