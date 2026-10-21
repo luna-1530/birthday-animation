@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const port = Number(process.env.PORT) || 3000;
+
 const contentTypes = {
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
@@ -28,8 +29,11 @@ createServer((request, response) => {
   }
 
   let pathname;
+
   try {
-    pathname = decodeURIComponent(new URL(request.url, "http://localhost").pathname);
+    pathname = decodeURIComponent(
+      new URL(request.url, "http://localhost").pathname
+    );
   } catch {
     response.writeHead(400);
     response.end("Bad Request");
@@ -39,6 +43,7 @@ createServer((request, response) => {
   const requestedPath = pathname === "/" ? "index.html" : pathname.slice(1);
   const filePath = path.resolve(root, requestedPath);
   const relativePath = path.relative(root, filePath);
+
   if (relativePath.startsWith("..") || path.isAbsolute(relativePath)) {
     response.writeHead(403);
     response.end("Forbidden");
@@ -46,6 +51,7 @@ createServer((request, response) => {
   }
 
   let fileStats;
+
   try {
     fileStats = statSync(filePath);
   } catch (error) {
@@ -54,6 +60,7 @@ createServer((request, response) => {
       response.end("Internal Server Error");
       return;
     }
+
     response.writeHead(404);
     response.end("Not Found");
     return;
@@ -67,13 +74,18 @@ createServer((request, response) => {
 
   response.writeHead(200, {
     "Content-Length": fileStats.size,
-    "Content-Type": contentTypes[path.extname(filePath).toLowerCase()] || "application/octet-stream",
+    "Content-Type":
+      contentTypes[path.extname(filePath).toLowerCase()] ||
+      "application/octet-stream",
   });
+
   if (request.method === "HEAD") {
     response.end();
   } else {
     createReadStream(filePath).pipe(response);
   }
-}).listen(port, "localhost", () => {
-  console.log(`Birthday animation server running at http://localhost:${port}`);
+}).listen(port, "0.0.0.0", () => {
+  console.log(
+    `Birthday animation server running at http://localhost:${port}`
+  );
 });
